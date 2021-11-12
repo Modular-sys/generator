@@ -1,0 +1,47 @@
+allprojects {
+    group 'xyz.zenheart'
+    /*javafx应用版本字符串不能有-中横线*/
+    version '0.0.1'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+        }
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        it.implementation "jakarta.annotation:jakarta.annotation-api:${jakarta_version}"
+
+        it.compileOnly "org.projectlombok:lombok:${lombok_version}"
+        it.annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+        it.testCompileOnly "org.projectlombok:lombok:${lombok_version}"
+        it.testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+        it.testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_verion}"
+        it.testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_verion}"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
