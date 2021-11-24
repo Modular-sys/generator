@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.pojo.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>项目名称: cgenerator </p>
@@ -12,7 +13,9 @@ import lombok.Data;
  * @version v1.0
  */
 @Data
-public class UserEntity {
+@EqualsAndHashCode(callSuper = true)
+public class UserEntity extends BaseEntity {
     private String name;
     private String pwd;
 }
+

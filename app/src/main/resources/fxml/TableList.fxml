@@ -13,7 +13,7 @@
         </columns>
     </TableView>
     <AnchorPane layoutY="2.0" prefHeight="32.0" prefWidth="497.0" styleClass="table-search">
-        <Button layoutX="329.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
+        <Button onAction="#searchTableEvent" layoutX="329.0" layoutY="3.0" mnemonicParsing="false" text="搜索" />
         <Button layoutX="390.0" layoutY="3.0" mnemonicParsing="false" text="下载选中项" />
         <TextField layoutX="3.0" layoutY="4.0" prefHeight="23.0" prefWidth="245.0" />
     </AnchorPane>

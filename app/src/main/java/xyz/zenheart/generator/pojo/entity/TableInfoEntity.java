@@ -1,8 +1,7 @@
 package xyz.zenheart.generator.pojo.entity;
 
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>项目名称: cgenerator </p>
@@ -14,9 +13,10 @@ import java.io.Serializable;
  * @version v1.0
  */
 @Data
-public class TableInfoEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(callSuper = true)
+public class TableInfoEntity extends BaseEntity {
 
     private String tableName;
     private String description;
 }
+

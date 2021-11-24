@@ -1,5 +1,9 @@
 package xyz.zenheart.generator.modules.pgsql.service;
 
+import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
+
+import java.util.List;
+
 /**
  * <p>项目名称: cgenerator </p>
  * <p>描述: 配置类service </p>
@@ -10,4 +14,5 @@ package xyz.zenheart.generator.modules.pgsql.service;
  * @version v1.0
  */
 public interface IPgsqlTableInfoService {
+    List<TableInfoEntity> queryTableInfo(String schema);
 }

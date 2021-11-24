@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.pojo.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -14,7 +15,8 @@ import java.io.Serializable;
  * @version v1.0
  */
 @Data
-public class SettingEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SettingEntity extends BaseEntity {
 
     private String directoryLocation;
 

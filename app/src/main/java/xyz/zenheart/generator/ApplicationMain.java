@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import xyz.zenheart.generator.config.SpringConfiguration;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
@@ -31,16 +32,16 @@ import java.util.Objects;
 @Slf4j
 public class ApplicationMain extends Application {
 
-    public static final ThreadLocal<SettingEntity> SETTING = ThreadLocal.withInitial(SettingEntity::new);
-
-    public static final AnnotationConfigApplicationContext ctx;
+    public static final AnnotationConfigApplicationContext CTX;
+    private static final ConfigurableListableBeanFactory BEAN_FACTORY;
 
     public static Stage stage;
 
     static {
-        ctx = new AnnotationConfigApplicationContext();
-        ctx.register(SpringConfiguration.class);
-        ctx.refresh();
+        CTX = new AnnotationConfigApplicationContext();
+        CTX.register(SpringConfiguration.class);
+        CTX.refresh();
+        BEAN_FACTORY = CTX.getBeanFactory();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ApplicationMain extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         ApplicationMain.stage = stage;
-//        this.systemTraySetting();
+        // this.systemTraySetting();
         stage.show();
     }
 
@@ -81,7 +82,7 @@ public class ApplicationMain extends Application {
         MenuItem closeItem = new MenuItem("Close");
         closeItem.addActionListener(closeListener);
         popup.add(closeItem);
-        /// ... add other items
+        // ... add other items
         // construct a TrayIcon
         TrayIcon trayIcon = new TrayIcon(image, "Title", popup);
         // set the TrayIcon properties
@@ -89,8 +90,21 @@ public class ApplicationMain extends Application {
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            System.err.println(e);
+            log.error("系统托盘异常", e.getCause());
         }
+    }
+
+    public static <T> T getBean(Class<T> aClass) {
+        return CTX.getBean(aClass);
+    }
+
+    public static <T> T getBean(String s, Class<T> aClass) {
+        return CTX.getBean(s, aClass);
+    }
+
+    public static void setBean(String beanName, Object obj) {
+        BEAN_FACTORY.registerSingleton(beanName, obj);
+        BEAN_FACTORY.autowireBean(obj);
     }
 
     public static void main(String[] args) {

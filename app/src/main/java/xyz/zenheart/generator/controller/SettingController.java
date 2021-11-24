@@ -11,11 +11,15 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
 import xyz.zenheart.generator.ApplicationMain;
+import xyz.zenheart.generator.Launcher;
 import xyz.zenheart.generator.enums.DataBaseEnum;
+import xyz.zenheart.generator.pojo.entity.BaseEntity;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
+import xyz.zenheart.generator.utils.Constant;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -28,6 +32,7 @@ import java.util.ResourceBundle;
  * @version v1.0
  */
 public class SettingController implements Initializable {
+
     @FXML
     private TextField directoryLocation;
     @FXML
@@ -92,7 +97,7 @@ public class SettingController implements Initializable {
 
     @FXML
     private void saveConfigEvent(ActionEvent event) {
-        SettingEntity setting = ApplicationMain.SETTING.get();
+        SettingEntity setting = new SettingEntity();
         setting.setDirectoryLocation(directoryLocation.getText());
         setting.setDatabaseUrl(databaseUrl.getText());
         setting.setDatabaseName(databaseName.getText());
@@ -100,6 +105,9 @@ public class SettingController implements Initializable {
         setting.setUsername(username.getText());
         setting.setPassword(password.getText());
         setting.setSchema(schema.getText());
-        System.out.println("111111111111111111");
+        Constant.GLOBAL.put(Constant.SETTING_ENTITY,setting);
+        SettingEntity object = (SettingEntity)Constant.GLOBAL.get(Constant.SETTING_ENTITY);
+
+        System.out.println(object);
     }
 }

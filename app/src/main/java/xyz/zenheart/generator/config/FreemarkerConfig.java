@@ -7,7 +7,7 @@ import xyz.zenheart.generator.utils.FtlUtils;
 import xyz.zenheart.generator.utils.PathUtils;
 
 /**
- * <p>项目名称: cgenerator </p>
+ * <p>项目名称: generator </p>
  * <p>描述: freemarker配置类 </p>
  * <p>创建时间: 2021/9/16 </p>
  * <p>公司信息: 维之星研发部</p>
@@ -18,9 +18,9 @@ import xyz.zenheart.generator.utils.PathUtils;
 @org.springframework.context.annotation.Configuration
 public class FreemarkerConfig {
 
-    @Bean
-    public Configuration configuration() {
-        Configuration cfg = new Configuration(freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+    @Bean("freemarkerConfiguration")
+    public Configuration freemarkerConfiguration() {
+        Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
         cfg.setClassForTemplateLoading(FtlUtils.class, PathUtils.FTL);
 

@@ -4,6 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import xyz.zenheart.generator.pojo.entity.UserEntity;
 
@@ -59,7 +61,8 @@ public class FtlUtils {
         }
     }
 
-    @Resource
+    @Autowired
+    @Qualifier("freemarkerConfiguration")
     public void afterPropertiesSet(Configuration configuration) {
         FtlUtils.configuration = configuration;
     }

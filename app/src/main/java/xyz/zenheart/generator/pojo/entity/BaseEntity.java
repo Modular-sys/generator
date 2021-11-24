@@ -2,6 +2,8 @@ package xyz.zenheart.generator.pojo.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>项目名称: CGenerator </p>
  * <p>描述: 基类 </p>
@@ -12,5 +14,6 @@ import lombok.Data;
  * @version v1.0
  */
 @Data
-public class BaseEntity {
+public abstract class BaseEntity implements Serializable {
+    static final long serialVersionUID = 1L;
 }

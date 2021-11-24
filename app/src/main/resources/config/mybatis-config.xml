@@ -48,7 +48,7 @@
 
 
         <!-- 3.配置包扫描创建别名：pojo包实体类取别名 -->
-        <property name="typeAliasesPackage" value="com.robot.generator.app.pojo.entity"/>
+        <property name="typeAliasesPackage" value="xyz.zenheart.generator.pojo.entity"/>
 
     </bean>
 
@@ -56,7 +56,7 @@
     <!-- 使用包扫描创建mapper包下面所有映射接口的代理对象 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 配置映射接口的包 -->
-        <property name="basePackage" value="com.robot.generator.app.pojo.entity"/>
+        <property name="basePackage" value="xyz.zenheart.generator.pojo.entity"/>
 
         <!-- 配置SqlSessionFactory Bean的名称  [可选] -->
         <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/> -->

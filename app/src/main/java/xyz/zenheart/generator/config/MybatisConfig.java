@@ -1,18 +1,18 @@
 package xyz.zenheart.generator.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.ibatis.session.Configuration;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
 
 /**
- * <p>项目名称: cgenerator </p>
+ * <p>项目名称: generator </p>
  * <p>描述: mybatis配置 </p>
  * <p>创建时间: 2021/9/2 </p>
  * <p>公司信息: 维之星研发部</p>
@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author CKM
  * @version v1.0
  */
-@Configuration
+@org.springframework.context.annotation.Configuration
 public class MybatisConfig {
 
     @Qualifier("pgsqlDataSource")
@@ -46,15 +46,15 @@ public class MybatisConfig {
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources(packageSearchPath));
         sqlSessionFactoryBean.setDataSource(pgsqlDataSource());
         /*实体类所在的包*/
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.robot.generator.app.pojo.*.entity");
+        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.zenheart.generator.pojo.*.entity");
         return sqlSessionFactoryBean;
     }
 
     @Qualifier("pgsqlMapperScannerConfigurer")
     @Bean(name = "pgsqlMapperScannerConfigurer")
-    public static MapperScannerConfigurer pgsqlMapperScannerConfigurer(){
+    public static MapperScannerConfigurer pgsqlMapperScannerConfigurer() {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-        configurer.setBasePackage("com.robot.generator.app.modules.pgsql.mapper");
+        configurer.setBasePackage("xyz.zenheart.generator.modules.pgsql.mapper");
         configurer.setSqlSessionFactoryBeanName("pgsqlSqlSessionFactoryBean");
         return configurer;
     }
@@ -82,15 +82,15 @@ public class MybatisConfig {
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources(packageSearchPath));
         sqlSessionFactoryBean.setDataSource(mysqlDataSource());
         /*实体类所在的包*/
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.robot.generator.app.pojo.*.entity");
+        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.zenheart.generator.pojo.*.entity");
         return sqlSessionFactoryBean;
     }
 
     @Qualifier("mysqlMapperScannerConfigurer")
     @Bean(name = "mysqlMapperScannerConfigurer")
-    public static MapperScannerConfigurer mysqlMapperScannerConfigurer(){
+    public static MapperScannerConfigurer mysqlMapperScannerConfigurer() {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-        configurer.setBasePackage("com.robot.generator.app.modules.mysql.mapper");
+        configurer.setBasePackage("xyz.zenheart.generator.modules.mysql.mapper");
         configurer.setSqlSessionFactoryBeanName("mysqlSqlSessionFactoryBean");
         return configurer;
     }
@@ -108,7 +108,7 @@ public class MybatisConfig {
     @Primary
     @Qualifier("localeSqlSessionFactoryBean")
     @Bean(name = "localeSqlSessionFactoryBean")
-    public SqlSessionFactoryBean localeSqlSessionFactoryBean() throws IOException {
+    public SqlSessionFactoryBean localeSqlSessionFactoryBean(Configuration configuration) throws IOException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         /*Mybatis的参数配置*/
 //        sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("config/mybatis-config.xml"));
@@ -117,18 +117,26 @@ public class MybatisConfig {
         String packageSearchPath = PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "/mapper/locale/**.xml";
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources(packageSearchPath));
         sqlSessionFactoryBean.setDataSource(localeDataSource());
+        sqlSessionFactoryBean.setConfiguration(configuration);
         /*实体类所在的包*/
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.robot.generator.app.pojo.*.entity");
+        sqlSessionFactoryBean.setTypeAliasesPackage("xyz.zenheart.generator.pojo.*.entity");
         return sqlSessionFactoryBean;
     }
 
     @Primary
     @Qualifier("localeMapperScannerConfigurer")
     @Bean(name = "localeMapperScannerConfigurer")
-    public static MapperScannerConfigurer localeMapperScannerConfigurer(){
+    public static MapperScannerConfigurer localeMapperScannerConfigurer() {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-        configurer.setBasePackage("com.robot.generator.app.modules.locale.mapper");
+        configurer.setBasePackage("xyz.zenheart.generator.modules.locale.mapper");
         configurer.setSqlSessionFactoryBeanName("localeSqlSessionFactoryBean");
         return configurer;
+    }
+
+    @Bean
+    public Configuration configuration() {
+        Configuration configuration = new Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        return configuration;
     }
 }

@@ -1,7 +1,12 @@
 package xyz.zenheart.generator.modules.pgsql.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zenheart.generator.modules.pgsql.mapper.IPgsqlTableInfoMapper;
 import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
+import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>项目名称: cgenerator </p>
@@ -15,4 +20,11 @@ import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 @Service("pgsqlTableInfoService")
 public class PgsqlTableInfoServiceImpl implements IPgsqlTableInfoService {
 
+    @Resource
+    private IPgsqlTableInfoMapper tableInfoMapper;
+
+    @Override
+    public List<TableInfoEntity> queryTableInfo(String schema) {
+        return tableInfoMapper.queryTableInfo(schema);
+    }
 }

@@ -7,18 +7,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import xyz.zenheart.generator.ApplicationMain;
+import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 import xyz.zenheart.generator.pojo.dto.TableDto;
+import xyz.zenheart.generator.pojo.entity.SettingEntity;
+import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.pojo.widget.DownloadButton;
 import xyz.zenheart.generator.pojo.widget.TableCheckbox;
+import xyz.zenheart.generator.utils.Constant;
 import xyz.zenheart.generator.utils.FieldUtils;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -42,20 +46,15 @@ public class TableListController implements Initializable {
     private TableColumn<TableDto, String> describe;
     @FXML
     private TableColumn<TableDto, DownloadButton> operation;
+    @FXML
+    private Button searchTable;
 
     private final ObservableList<TableDto> data = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (int i = 0; i < 20; i++) {
-            DownloadButton button = new DownloadButton("下载");
-            TableDto dto = new TableDto(new TableCheckbox(true), "Jones", "emma.jones@example.com", button);
-            data.add(dto);
-            button.setRowData(dto);
-            button.setOnAction(this::downloadEvent);
-        }
-
         initStyle();
+        searchTable();
         checkbox.setCellFactory(param -> {
             TableCell<TableDto, TableCheckbox> cell = new TableCell<>() {
                 @Override
@@ -96,8 +95,26 @@ public class TableListController implements Initializable {
 
     private void downloadEvent(ActionEvent actionEvent) {
         DownloadButton source = (DownloadButton) actionEvent.getSource();
-
-
         System.out.println(source.getRowData());
+    }
+
+
+    @FXML
+    private void searchTableEvent(ActionEvent event) {
+        searchTable();
+    }
+
+    private void searchTable() {
+        SettingEntity settingEntity = (SettingEntity) Constant.GLOBAL.get(Constant.SETTING_ENTITY);
+        if (Objects.isNull(settingEntity)) return;
+        IPgsqlTableInfoService pgsqlTableInfoService = ApplicationMain.getBean(IPgsqlTableInfoService.class);
+        List<TableInfoEntity> devops = pgsqlTableInfoService.queryTableInfo(settingEntity.getSchema());
+        for (TableInfoEntity tableInfo : devops) {
+            DownloadButton button = new DownloadButton("下载");
+            TableDto dto = new TableDto(new TableCheckbox(false), tableInfo.getTableName(), tableInfo.getDescription(), button);
+            data.add(dto);
+            button.setRowData(dto);
+            button.setOnAction(this::downloadEvent);
+        }
     }
 }
