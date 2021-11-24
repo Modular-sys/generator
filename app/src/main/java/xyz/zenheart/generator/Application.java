@@ -1,8 +1,6 @@
 package xyz.zenheart.generator;
 
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import xyz.zenheart.generator.config.SpringConfiguration;
-import xyz.zenheart.generator.pojo.entity.SettingEntity;
+import xyz.zenheart.generator.config.SpringFxmlLoader;
 import xyz.zenheart.generator.utils.PathUtils;
 
 import javax.imageio.ImageIO;
@@ -24,13 +22,13 @@ import java.util.Objects;
  * <p>项目名称: generator </p>
  * <p>描述: 代码生成器启动类 </p>
  * <p>创建时间: 2021/7/29 </p>
- * <p>公司信息: 维之星研发部</p>
+
  *
  * @author CKM
  * @version v1.0
  */
 @Slf4j
-public class ApplicationMain extends Application {
+public class Application extends javafx.application.Application {
 
     public static final AnnotationConfigApplicationContext CTX;
     private static final ConfigurableListableBeanFactory BEAN_FACTORY;
@@ -46,15 +44,14 @@ public class ApplicationMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Parent root = FXMLLoader.load(PathUtils.fxml("/Desktop.fxml"));
+        Parent root = SpringFxmlLoader.Load(PathUtils.fxml("/Desktop.fxml"));
         stage.setTitle("代码生成器");
         stage.getIcons().add(new Image("/assets/icon/icon.jpg"));
         Scene scene = new Scene(root, 500, 400);
         scene.getStylesheets().add("/assets/css/global.css");
         stage.setScene(scene);
         stage.setResizable(false);
-        ApplicationMain.stage = stage;
+        Application.stage = stage;
         // this.systemTraySetting();
         stage.show();
     }
@@ -82,10 +79,7 @@ public class ApplicationMain extends Application {
         MenuItem closeItem = new MenuItem("Close");
         closeItem.addActionListener(closeListener);
         popup.add(closeItem);
-        // ... add other items
-        // construct a TrayIcon
         TrayIcon trayIcon = new TrayIcon(image, "Title", popup);
-        // set the TrayIcon properties
         trayIcon.addActionListener(showListener);
         try {
             tray.add(trayIcon);
@@ -107,7 +101,7 @@ public class ApplicationMain extends Application {
         BEAN_FACTORY.autowireBean(obj);
     }
 
-    public static void main(String[] args) {
+    public static void execute(String[] args) {
         launch(args);
     }
 }

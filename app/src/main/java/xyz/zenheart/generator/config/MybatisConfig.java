@@ -15,7 +15,7 @@ import java.io.IOException;
  * <p>项目名称: generator </p>
  * <p>描述: mybatis配置 </p>
  * <p>创建时间: 2021/9/2 </p>
- * <p>公司信息: 维之星研发部</p>
+
  *
  * @author CKM
  * @version v1.0

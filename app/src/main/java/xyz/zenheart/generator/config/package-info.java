@@ -7,6 +7,6 @@
  * @version v1.0
  */
 @NonNullApi
-package xyz.zenheart.generator.utils;
+package xyz.zenheart.generator.config;
 
 import org.springframework.lang.NonNullApi;

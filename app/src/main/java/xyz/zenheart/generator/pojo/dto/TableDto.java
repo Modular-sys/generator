@@ -11,7 +11,6 @@ import xyz.zenheart.generator.pojo.widget.TableCheckbox;
  * <p>项目名称: cgenerator </p>
  * <p>描述: 表信息实体对象 </p>
  * <p>创建时间: 2021/9/6 </p>
- * <p>公司信息: 维之星研发部</p>
  *
  * @author CKM
  * @version v1.0

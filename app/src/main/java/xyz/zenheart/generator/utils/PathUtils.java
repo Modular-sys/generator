@@ -6,7 +6,6 @@ import java.net.URL;
  * <p>项目名称: cgenerator </p>
  * <p>描述: 路径工具 </p>
  * <p>创建时间: 2021/9/1 </p>
- * <p>公司信息: 维之星研发部</p>
  *
  * @author CKM
  * @version v1.0

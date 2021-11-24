@@ -10,7 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import xyz.zenheart.generator.ApplicationMain;
+import org.springframework.stereotype.Component;
+import xyz.zenheart.generator.Application;
 import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 import xyz.zenheart.generator.pojo.dto.TableDto;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
@@ -20,6 +21,7 @@ import xyz.zenheart.generator.pojo.widget.TableCheckbox;
 import xyz.zenheart.generator.utils.Constant;
 import xyz.zenheart.generator.utils.FieldUtils;
 
+import javax.annotation.Resource;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -29,11 +31,11 @@ import java.util.ResourceBundle;
  * <p>项目名称: cgenerator </p>
  * <p>描述: 小信息列表 </p>
  * <p>创建时间: 2021/9/24 </p>
- * <p>公司信息: 维之星研发部</p>
  *
  * @author CKM
  * @version v1.0
  */
+@Component
 public class TableListController implements Initializable {
 
     @FXML
@@ -48,13 +50,16 @@ public class TableListController implements Initializable {
     private TableColumn<TableDto, DownloadButton> operation;
     @FXML
     private Button searchTable;
+    @Resource
+    private IPgsqlTableInfoService pgsqlTableInfoService;
+
 
     private final ObservableList<TableDto> data = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initStyle();
         searchTable();
+        initStyle();
         checkbox.setCellFactory(param -> {
             TableCell<TableDto, TableCheckbox> cell = new TableCell<>() {
                 @Override
@@ -107,7 +112,6 @@ public class TableListController implements Initializable {
     private void searchTable() {
         SettingEntity settingEntity = (SettingEntity) Constant.GLOBAL.get(Constant.SETTING_ENTITY);
         if (Objects.isNull(settingEntity)) return;
-        IPgsqlTableInfoService pgsqlTableInfoService = ApplicationMain.getBean(IPgsqlTableInfoService.class);
         List<TableInfoEntity> devops = pgsqlTableInfoService.queryTableInfo(settingEntity.getSchema());
         for (TableInfoEntity tableInfo : devops) {
             DownloadButton button = new DownloadButton("下载");

@@ -4,7 +4,7 @@ package xyz.zenheart.generator;
  * <p>项目名称: generator </p>
  * <p>描述: 应用启动类 </p>
  * <p>创建时间: 2021/11/12 </p>
- * <p>公司信息: 维之星研发部</p>
+
  *
  * @author CKM
  * @version v1.0
@@ -12,6 +12,6 @@ package xyz.zenheart.generator;
 public class Launcher {
 
     public static void main(String[] args) {
-        ApplicationMain.main(args);
+        Application.execute(args);
     }
 }

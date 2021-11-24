@@ -10,27 +10,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
-import xyz.zenheart.generator.ApplicationMain;
-import xyz.zenheart.generator.Launcher;
+import org.springframework.stereotype.Component;
+import xyz.zenheart.generator.Application;
 import xyz.zenheart.generator.enums.DataBaseEnum;
-import xyz.zenheart.generator.pojo.entity.BaseEntity;
+import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 import xyz.zenheart.generator.utils.Constant;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
  * <p>项目名称: cgenerator </p>
  * <p>描述: 配置页面 </p>
  * <p>创建时间: 2021/9/23 </p>
- * <p>公司信息: 维之星研发部</p>
  *
  * @author CKM
  * @version v1.0
  */
+@Component
 public class SettingController implements Initializable {
 
     @FXML
@@ -49,7 +48,6 @@ public class SettingController implements Initializable {
     private TextField password;
     @FXML
     private TextField schema;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,7 +70,7 @@ public class SettingController implements Initializable {
         directoryChooser.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Choose Folder");
-            File directory = directoryChooser.showDialog(ApplicationMain.stage);
+            File directory = directoryChooser.showDialog(Application.stage);
             if (directory != null) {
                 System.out.println(directory.getAbsolutePath());
                 directoryLocation.setText(directory.getAbsolutePath());
@@ -97,6 +95,8 @@ public class SettingController implements Initializable {
 
     @FXML
     private void saveConfigEvent(ActionEvent event) {
+        IPgsqlTableInfoService tableInfoService = Application.getBean(IPgsqlTableInfoService.class);
+
         SettingEntity setting = new SettingEntity();
         setting.setDirectoryLocation(directoryLocation.getText());
         setting.setDatabaseUrl(databaseUrl.getText());
