@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import xyz.zenheart.generator.datasource.execute.SqlExecute;
 import xyz.zenheart.generator.pojo.dto.TableDto;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
@@ -118,6 +119,15 @@ public class TableListController implements Initializable {
     private void searchTable() {
         data.clear();
         SettingEntity setting = (SettingEntity) Constant.GLOBAL.get((String) Constant.GLOBAL.get(Constant.SELECTED));
+        String sql= """
+                SELECT pgt_.tablename AS table_Name, 1 as descriPtion 
+                        FROM pg_tables pgt_ 
+                        JOIN pg_class pgc_ ON pgc_.relname = pgt_.tablename 
+                        LEFT JOIN pg_description pgd_ ON pgd_.objoid = pgc_.oid AND pgd_.objsubid = '0' 
+                        WHERE 1=1 
+                            AND pgt_.schemaname = 'message' 
+                """;
+        SettingEntity o = SqlExecute.executeQuery(sql, resultSet -> new SettingEntity());
         if (Objects.isNull(setting)) return;
         List<TableInfoEntity> tables = tableInfoService.queryTableInfo(setting.getSchema());
         for (TableInfoEntity tableInfo : tables) {
