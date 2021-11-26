@@ -20,6 +20,8 @@ application {
 dependencies {
     implementation project(':core')
     implementation 'com.fazecast:jSerialComm:2.7.0'
+    implementation 'org.assertj:assertj-core:3.19.0'
+    implementation 'org.aspectj:aspectjweaver:1.9.7'
     implementation "com.zaxxer:HikariCP:${hikaricp_version}"
     implementation "org.xerial:sqlite-jdbc:${sqlite_version}"
     implementation "org.postgresql:postgresql:${pgsql_version}"

@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Setter
 public class TableCheckbox extends CheckBox implements ObservableValue<TableCheckbox> {
+    @Getter
+    private Object rowData;
 
     public TableCheckbox() {
         this.addPropertyListener();
@@ -30,6 +33,7 @@ public class TableCheckbox extends CheckBox implements ObservableValue<TableChec
 
     private void addPropertyListener() {
         this.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            log.info(TableCheckbox.this.getRowData().toString());
             System.out.println(oldValue);
             System.out.println(newValue);
         });
@@ -37,12 +41,10 @@ public class TableCheckbox extends CheckBox implements ObservableValue<TableChec
 
     @Override
     public void addListener(ChangeListener listener) {
-        System.out.println("dddddddddd");
     }
 
     @Override
     public void removeListener(ChangeListener listener) {
-
     }
 
     @Override
@@ -52,7 +54,6 @@ public class TableCheckbox extends CheckBox implements ObservableValue<TableChec
 
     @Override
     public void addListener(InvalidationListener listener) {
-        System.out.println(getText());
     }
 
     @Override

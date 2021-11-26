@@ -6,7 +6,7 @@
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="497.0" stylesheets="/assets/css/global.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.zenheart.generator.controller.TableListController">
     <TableView fx:id="tableView" layoutY="33.0" prefHeight="341.0" prefWidth="497.0" styleClass="to-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
         <columns>
-            <TableColumn fx:id="checkbox" prefWidth="75.0" text="选择" />
+            <TableColumn fx:id="checkbox" prefWidth="25.0" />
             <TableColumn fx:id="tableName" prefWidth="100.0" text="表名" />
             <TableColumn fx:id="describe" prefWidth="200.0" text="描述" />
             <TableColumn fx:id="operation" prefWidth="75.0" text="操作" />

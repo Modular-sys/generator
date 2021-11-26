@@ -10,13 +10,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import xyz.zenheart.generator.Application;
+import xyz.zenheart.generator.config.FXMLConfiguration;
 import xyz.zenheart.generator.enums.DataBaseEnum;
-import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
+import xyz.zenheart.generator.modules.locale.service.ISettingService;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 import xyz.zenheart.generator.utils.Constant;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ import java.util.ResourceBundle;
  * @author CKM
  * @version v1.0
  */
+@Slf4j
 @Component
 public class SettingController implements Initializable {
 
@@ -48,6 +51,8 @@ public class SettingController implements Initializable {
     private TextField password;
     @FXML
     private TextField schema;
+    @Resource
+    private ISettingService settingService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,23 +64,38 @@ public class SettingController implements Initializable {
         databaseUrl.setTooltip(tooltip);
 
         databaseType.setItems(FXCollections.observableArrayList(DataBaseEnum.values()));
-        databaseType.getSelectionModel().selectFirst();
-        databaseType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        String selected = (String) Constant.GLOBAL.get(Constant.SELECTED);
+        databaseType.getSelectionModel().select(DataBaseEnum.getByName(selected));
 
-            System.out.println(oldValue.getName());
-            System.out.println(newValue.getName());
+        resetValue((SettingEntity) Constant.GLOBAL.get(selected));
+
+        databaseType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            log.info("切换到数据库: {}", newValue.getName());
+            Constant.GLOBAL.put(Constant.SELECTED, newValue.getName());
+            SettingEntity setting = (SettingEntity) Constant.GLOBAL.get(newValue.getName());
+            resetValue(setting);
+            saveConfigHandle();
         });
         databaseType.setConverter(new DataBaseConverter());
 
         directoryChooser.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Choose Folder");
-            File directory = directoryChooser.showDialog(Application.stage);
+            File directory = directoryChooser.showDialog(FXMLConfiguration.stage);
             if (directory != null) {
                 System.out.println(directory.getAbsolutePath());
                 directoryLocation.setText(directory.getAbsolutePath());
             }
         });
+    }
+
+    private void resetValue(SettingEntity setting) {
+        directoryLocation.setText(setting.getDirectoryLocation());
+        databaseUrl.setText(setting.getDatabaseUrl());
+        databaseName.setText(setting.getDatabaseName());
+        username.setText(setting.getUsername());
+        password.setText(setting.getPassword());
+        schema.setText(setting.getSchema());
     }
 
     static class DataBaseConverter extends StringConverter<DataBaseEnum> {
@@ -95,8 +115,16 @@ public class SettingController implements Initializable {
 
     @FXML
     private void saveConfigEvent(ActionEvent event) {
-        IPgsqlTableInfoService tableInfoService = Application.getBean(IPgsqlTableInfoService.class);
+        saveConfigHandle();
+    }
 
+    private void saveConfigHandle() {
+        SettingEntity setting = snapshotData();
+        settingService.updateSetting(setting);
+        settingService.selectedModify(setting.getDatabaseType());
+    }
+
+    private SettingEntity snapshotData() {
         SettingEntity setting = new SettingEntity();
         setting.setDirectoryLocation(directoryLocation.getText());
         setting.setDatabaseUrl(databaseUrl.getText());
@@ -105,9 +133,8 @@ public class SettingController implements Initializable {
         setting.setUsername(username.getText());
         setting.setPassword(password.getText());
         setting.setSchema(schema.getText());
-        Constant.GLOBAL.put(Constant.SETTING_ENTITY,setting);
-        SettingEntity object = (SettingEntity)Constant.GLOBAL.get(Constant.SETTING_ENTITY);
-
-        System.out.println(object);
+        Constant.GLOBAL.put(Constant.SELECTED, setting.getDatabaseType());
+        Constant.GLOBAL.put(setting.getDatabaseType(), setting);
+        return setting;
     }
 }

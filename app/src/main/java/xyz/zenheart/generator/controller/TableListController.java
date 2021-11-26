@@ -6,18 +6,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import xyz.zenheart.generator.Application;
-import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 import xyz.zenheart.generator.pojo.dto.TableDto;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.pojo.widget.DownloadButton;
 import xyz.zenheart.generator.pojo.widget.TableCheckbox;
+import xyz.zenheart.generator.service.ITableInfoService;
 import xyz.zenheart.generator.utils.Constant;
 import xyz.zenheart.generator.utils.FieldUtils;
 
@@ -35,6 +36,7 @@ import java.util.ResourceBundle;
  * @author CKM
  * @version v1.0
  */
+@Slf4j
 @Component
 public class TableListController implements Initializable {
 
@@ -48,10 +50,8 @@ public class TableListController implements Initializable {
     private TableColumn<TableDto, String> describe;
     @FXML
     private TableColumn<TableDto, DownloadButton> operation;
-    @FXML
-    private Button searchTable;
     @Resource
-    private IPgsqlTableInfoService pgsqlTableInfoService;
+    private ITableInfoService tableInfoService;
 
 
     private final ObservableList<TableDto> data = FXCollections.observableArrayList();
@@ -60,18 +60,19 @@ public class TableListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         searchTable();
         initStyle();
-        checkbox.setCellFactory(param -> {
-            TableCell<TableDto, TableCheckbox> cell = new TableCell<>() {
-                @Override
-                public void updateItem(TableCheckbox item, boolean empty) {
-                    if (!empty) {
-                        super.setGraphic(item);
-                    }
-                }
-            };
-            cell.setAlignment(Pos.CENTER);
-            return cell;
-        });
+//        checkbox.setCellFactory(param -> {
+//            TableCell<TableDto, TableCheckbox> cell = new TableCell<>() {
+//                @Override
+//                public void updateItem(TableCheckbox item, boolean empty) {
+//                    super.updateItem(item,empty);
+//                    if (!empty && Objects.nonNull(item)) {
+//                        super.setGraphic(item);
+//                    }
+//                }
+//            };
+//            cell.setAlignment(Pos.CENTER);
+//            return cell;
+//        });
 
         checkbox.setCellValueFactory(cellData -> cellData.getValue().getTableCheckbox());
         CheckBox box = new CheckBox();
@@ -90,12 +91,18 @@ public class TableListController implements Initializable {
     }
 
     private void initStyle() {
-        checkbox.setMinWidth(30);
-        tableName.setMinWidth(120);
-        describe.setMinWidth(210);
-        tableName.setStyle("-fx-alignment:CENTER");
-        describe.setStyle("-fx-alignment:CENTER");
-        operation.setStyle("-fx-alignment:CENTER");
+        checkbox.setMinWidth(35);
+        checkbox.setMaxWidth(35);
+        checkbox.setStyle("-fx-alignment:center");
+        tableName.setMinWidth(140);
+        tableName.setMaxWidth(180);
+        describe.setMinWidth(200);
+        describe.setMaxWidth(240);
+        tableName.setStyle("-fx-padding: 0");
+        tableName.setStyle("-fx-alignment:center-left");
+        describe.setStyle("-fx-padding: 0");
+        describe.setStyle("-fx-alignment:center-left");
+        operation.setStyle("-fx-alignment:center");
     }
 
     private void downloadEvent(ActionEvent actionEvent) {
@@ -103,21 +110,24 @@ public class TableListController implements Initializable {
         System.out.println(source.getRowData());
     }
 
-
     @FXML
     private void searchTableEvent(ActionEvent event) {
         searchTable();
     }
 
     private void searchTable() {
-        SettingEntity settingEntity = (SettingEntity) Constant.GLOBAL.get(Constant.SETTING_ENTITY);
-        if (Objects.isNull(settingEntity)) return;
-        List<TableInfoEntity> devops = pgsqlTableInfoService.queryTableInfo(settingEntity.getSchema());
-        for (TableInfoEntity tableInfo : devops) {
+        data.clear();
+        SettingEntity setting = (SettingEntity) Constant.GLOBAL.get((String) Constant.GLOBAL.get(Constant.SELECTED));
+        if (Objects.isNull(setting)) return;
+        List<TableInfoEntity> tables = tableInfoService.queryTableInfo(setting.getSchema());
+        for (TableInfoEntity tableInfo : tables) {
             DownloadButton button = new DownloadButton("下载");
-            TableDto dto = new TableDto(new TableCheckbox(false), tableInfo.getTableName(), tableInfo.getDescription(), button);
+            String description = Objects.isNull(tableInfo.getDescription()) ? "" : tableInfo.getDescription();
+            TableCheckbox checkbox = new TableCheckbox(Constant.FALSE);
+            TableDto dto = new TableDto(checkbox, tableInfo.getTableName(), description, button);
             data.add(dto);
             button.setRowData(dto);
+            checkbox.setRowData(dto);
             button.setOnAction(this::downloadEvent);
         }
     }

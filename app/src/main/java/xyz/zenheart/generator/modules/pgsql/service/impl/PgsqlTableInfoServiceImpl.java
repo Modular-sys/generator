@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.modules.pgsql.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zenheart.generator.datasource.annotation.DynamicSource;
 import xyz.zenheart.generator.modules.pgsql.mapper.IPgsqlTableInfoMapper;
 import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
@@ -23,6 +24,7 @@ public class PgsqlTableInfoServiceImpl implements IPgsqlTableInfoService {
     private IPgsqlTableInfoMapper tableInfoMapper;
 
     @Override
+    @DynamicSource
     public List<TableInfoEntity> queryTableInfo(String schema) {
         return tableInfoMapper.queryTableInfo(schema);
     }

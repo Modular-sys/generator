@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Constant {
     public static final Map<String, Object> GLOBAL = new ConcurrentHashMap<>();
 
-    public static final String SETTING_ENTITY = "settingEntity";
-
     public static final String SELECTED = "selected";
+
+    public static final boolean FALSE = false;
 }

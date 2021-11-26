@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.modules.locale.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 
 import java.util.List;
@@ -16,4 +17,8 @@ import java.util.List;
 @Mapper
 public interface ISettingMapper {
     List<SettingEntity> searchAll();
+
+    int selectedModify(@Param("type") String type);
+
+    int updateSetting(@Param("setting") SettingEntity setting);
 }

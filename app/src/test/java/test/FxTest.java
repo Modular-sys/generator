@@ -6,7 +6,7 @@
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import xyz.zenheart.generator.config.SpringConfiguration;
-//import xyz.zenheart.generator.modules.pgsql.mapper.IPgsqlTableInfoMapper;
+//import xyz.zenheart.generator.mapper.IPgsqlTableInfoMapper;
 //import xyz.zenheart.generator.modules.pgsql.service.IPgsqlTableInfoService;
 //import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 //

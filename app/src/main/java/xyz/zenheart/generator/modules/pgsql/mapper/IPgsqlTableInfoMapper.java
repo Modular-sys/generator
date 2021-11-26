@@ -2,6 +2,7 @@ package xyz.zenheart.generator.modules.pgsql.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import xyz.zenheart.generator.modules.ITableInfoMapper;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 
 import java.util.List;
@@ -16,9 +17,8 @@ import java.util.List;
  */
 @Mapper
 //@Repository("pgsqlTableInfoMapper")
-public interface IPgsqlTableInfoMapper {
+public interface IPgsqlTableInfoMapper extends ITableInfoMapper {
 
     List<TableInfoEntity> queryTableInfo(@Param("schema") String schema);
-
 
 }

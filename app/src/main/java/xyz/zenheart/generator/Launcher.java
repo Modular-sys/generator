@@ -1,5 +1,7 @@
 package xyz.zenheart.generator;
 
+import xyz.zenheart.generator.config.FXMLConfiguration;
+
 /**
  * <p>项目名称: generator </p>
  * <p>描述: 应用启动类 </p>
@@ -12,6 +14,6 @@ package xyz.zenheart.generator;
 public class Launcher {
 
     public static void main(String[] args) {
-        Application.execute(args);
+        FXMLConfiguration.execute(args);
     }
 }

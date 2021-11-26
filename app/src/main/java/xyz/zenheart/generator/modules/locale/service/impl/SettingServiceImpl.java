@@ -26,4 +26,14 @@ public class SettingServiceImpl implements ISettingService {
     public List<SettingEntity> searchAll() {
         return settingMapper.searchAll();
     }
+
+    @Override
+    public int selectedModify(String type) {
+        return settingMapper.selectedModify(type);
+    }
+
+    @Override
+    public int updateSetting(SettingEntity setting) {
+        return settingMapper.updateSetting(setting);
+    }
 }

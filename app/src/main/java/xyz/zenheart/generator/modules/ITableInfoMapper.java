@@ -1,8 +1,7 @@
-package xyz.zenheart.generator.modules.mysql.mapper;
+package xyz.zenheart.generator.modules;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import xyz.zenheart.generator.modules.ITableInfoMapper;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 
 import java.util.List;
@@ -16,7 +15,9 @@ import java.util.List;
  * @version v1.0
  */
 @Mapper
-public interface IMysqlTableInfoMapper extends ITableInfoMapper {
+public interface ITableInfoMapper {
 
     List<TableInfoEntity> queryTableInfo(@Param("schema") String schema);
+
+
 }

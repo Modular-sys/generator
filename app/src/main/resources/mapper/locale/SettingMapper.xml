@@ -3,7 +3,24 @@
 <mapper namespace="xyz.zenheart.generator.modules.locale.mapper.ISettingMapper">
 
     <select id="searchAll" resultType="xyz.zenheart.generator.pojo.entity.SettingEntity">
-        SELECT * FROM setting
+        SELECT *
+        FROM setting
     </select>
+
+    <update id="selectedModify">
+        UPDATE setting
+        SET selected = CASE WHEN database_type = #{type} THEN 1 ELSE 0 END
+    </update>
+
+    <update id="updateSetting">
+        UPDATE setting
+        SET directory_location = #{setting.directoryLocation},
+            database_url       = #{setting.databaseUrl},
+            username           = #{setting.username},
+            password           = #{setting.password},
+            schema             = #{setting.schema}
+        WHERE database_type = #{setting.databaseType}
+    </update>
+
 
 </mapper>
