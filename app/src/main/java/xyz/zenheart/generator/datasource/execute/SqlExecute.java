@@ -22,18 +22,15 @@ public class SqlExecute {
     private static final String PGSQL_DRIVE = "org.postgresql.Driver";
     private static final String MYSQL_DRIVE = "com.mysql.cj.jdbc.Driver";
     private static final String PGSQL_URL = "jdbc:postgresql://@{url}/@{database}?currentSchema=@{schema}&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
-    private static final String MYSQL_URL = "jdbc:mysql:///@{url}/@{database}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
+    private static final String MYSQL_URL = "jdbc:mysql://@{url}/@{database}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
 
     public static void main(String[] args) {
-//        PreparedStatement
-//        DriverManager.getConnection()
     }
 
     public static Connection createConnection() {
         try {
-            String type = (String) Constant.GLOBAL.get(Constant.SELECTED);
-            SettingEntity setting = (SettingEntity) Constant.GLOBAL.get(type);
-            return switch (type) {
+            SettingEntity setting = Constant.setting();
+            return switch (setting.getDatabaseType()) {
                 case "mysql" -> {
                     Class.forName(MYSQL_DRIVE);
                     String url = MYSQL_URL.replace("@{url}", setting.getDatabaseUrl())
@@ -55,16 +52,21 @@ public class SqlExecute {
         return null;
     }
 
-    public static  <R> R executeQuery(String sql, Function<ResultSet, R> call) {
-        Connection connection = createConnection();
+    public static <R> R executeQuery(String sql, Function<ResultSet, R> call) {
         try {
+            Connection connection = createConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            log.info(resultSet.toString());
-            return call.apply(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            try (connection; statement; resultSet) {
+                log.info(resultSet.toString());
+                return call.apply(resultSet);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            log.error("执行sql查询异常");
         }
         return null;
     }
+
 }

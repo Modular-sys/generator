@@ -1,12 +1,9 @@
 package xyz.zenheart.generator.service.impl;
 
-import org.springframework.stereotype.Service;
-import xyz.zenheart.generator.modules.ITableInfoMapper;
 import xyz.zenheart.generator.modules.mysql.mapper.IMysqlTableInfoMapper;
 import xyz.zenheart.generator.modules.pgsql.mapper.IPgsqlTableInfoMapper;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.service.ITableInfoService;
-import xyz.zenheart.generator.utils.Constant;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,7 +16,7 @@ import java.util.List;
  * @author CKM
  * @version v1.0
  */
-@Service
+//@Service
 public class TableInfoServiceImpl implements ITableInfoService {
 
     @Resource
@@ -29,14 +26,15 @@ public class TableInfoServiceImpl implements ITableInfoService {
     private IMysqlTableInfoMapper mysqlTableInfoMapper;
 
     @Override
-    public List<TableInfoEntity> queryTableInfo(String schema) {
-        String type = (String) Constant.GLOBAL.get(Constant.SELECTED);
-        ITableInfoMapper tableInfoMapper;
-        if ("mysql".equals(type)) {
-            tableInfoMapper = mysqlTableInfoMapper;
-        } else {
-            tableInfoMapper = pgsqlTableInfoMapper;
-        }
-        return tableInfoMapper.queryTableInfo(schema);
+    public List<TableInfoEntity> queryTableInfo() {
+//        String type = (String) Constant.GLOBAL.get(Constant.SELECTED);
+//        ITableInfoMapper tableInfoMapper;
+//        if ("mysql".equals(type)) {
+//            tableInfoMapper = mysqlTableInfoMapper;
+//        } else {
+//            tableInfoMapper = pgsqlTableInfoMapper;
+//        }
+//        return tableInfoMapper.queryTableInfo(schema);
+        return null;
     }
 }

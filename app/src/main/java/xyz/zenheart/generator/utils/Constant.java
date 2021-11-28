@@ -1,5 +1,7 @@
 package xyz.zenheart.generator.utils;
 
+import xyz.zenheart.generator.pojo.entity.SettingEntity;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,4 +19,8 @@ public class Constant {
     public static final String SELECTED = "selected";
 
     public static final boolean FALSE = false;
+
+    public static SettingEntity setting() {
+        return (SettingEntity) Constant.GLOBAL.get((String) Constant.GLOBAL.get(SELECTED));
+    }
 }
