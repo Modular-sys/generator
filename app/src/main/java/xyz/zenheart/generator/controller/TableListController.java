@@ -49,7 +49,6 @@ public class TableListController implements Initializable {
     @FXML
     private TableColumn<TableDto, DownloadButton> operation;
 
-
     private final ObservableList<TableDto> data = FXCollections.observableArrayList();
 
     @Override

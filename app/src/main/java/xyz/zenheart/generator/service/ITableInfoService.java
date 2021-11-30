@@ -17,6 +17,8 @@ import java.util.List;
 public interface ITableInfoService {
     List<TableInfoEntity> queryTableInfo();
 
+    List<String> queryTableDetails(String tableName);
+
     default SettingEntity setting() {
         return (SettingEntity) Constant.GLOBAL.get((String) Constant.GLOBAL.get(Constant.SELECTED));
     }

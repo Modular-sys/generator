@@ -21,15 +21,15 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
 
     @Override
     public List<TableInfoEntity> queryTableInfo() {
-        String sql = """
+        String table = """
                 SELECT pgt_.tablename AS tablename, pgd_.description as description 
                         FROM pg_tables pgt_ 
                         JOIN pg_class pgc_ ON pgc_.relname = pgt_.tablename 
                         LEFT JOIN pg_description pgd_ ON pgd_.objoid = pgc_.oid AND pgd_.objsubid = '0' 
                         WHERE 1=1 AND pgt_.schemaname = '@{schema}'
                 """;
-        String replace = sql.replace("@{schema}", setting().getSchema());
-        return Objects.requireNonNull(SqlExecute.executeQuery(replace, resultSet -> {
+        String sql = table.replace("@{schema}", setting().getSchema());
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, resultSet -> {
             List<TableInfoEntity> list = new ArrayList<>();
             try {
                 while (resultSet.next()) {
@@ -44,5 +44,24 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
             }
             return list;
         }));
+    }
+
+    @Override
+    public List<String> queryTableDetails(String tableName) {
+        String details = """
+                SELECT pc.relname AS tableName,pa.attname AS columnName,pt.typname AS columnType, 
+                	(CASE WHEN pa.attlen > 0 THEN pa.attlen ELSE pa.atttypmod - 4 END ) AS columnLength, pa.attnotnull AS isNullAble, 
+                	( CASE WHEN ( SELECT COUNT(*) FROM pg_constraint WHERE conrelid = pa.attrelid AND conkey[1]= attnum AND contype = 'p' ) > 0 THEN 
+                        TRUE ELSE FALSE END ) AS isPrimary,pd.description AS columnDescription 
+                FROM 
+                	pg_class pc,pg_attribute pa,pg_type pt,pg_description pd 
+                WHERE 
+                	pc.oid = pa.attrelid AND pt.oid = pa.atttypid AND pd.objoid = pa.attrelid AND pd.objsubid = pa.attnum AND pc.relname = '@{tableName}' 
+                ORDER BY 
+                	pc.relname DESC,pa.attnum ASC 
+                """;
+        String sql = details.replace("@{tableName}", tableName);
+
+        return null;
     }
 }

@@ -22,9 +22,9 @@ public class MysqlTableInfoServiceImpl implements ITableInfoService {
     @Override
     public List<TableInfoEntity> queryTableInfo() {
         String sql = """
-                SELECT table_name AS tableName,table_comment AS description FROM information_schema.tables  WHERE table_schema='@{schema}@'
+                SELECT table_name AS tableName,table_comment AS description FROM information_schema.tables  WHERE table_schema='@{schema}'
                 """;
-        String replace = sql.replace("@{schema}@", setting().getSchema());
+        String replace = sql.replace("@{schema}", setting().getSchema());
         return Objects.requireNonNull(SqlExecute.executeQuery(replace, resultSet -> {
             List<TableInfoEntity> list = new ArrayList<>();
             try {
@@ -40,5 +40,16 @@ public class MysqlTableInfoServiceImpl implements ITableInfoService {
             }
             return list;
         }));
+    }
+
+    @Override
+    public List<String> queryTableDetails(String tableName) {
+        String details = """
+                select TABLE_NAME AS tableName,COLUMN_NAME AS columnName,COLUMN_TYPE AS columnType,
+                IS_NULLABLE AS isNullAble,COLUMN_KEY AS isPrimary,COLUMN_COMMENT AS columnDescription
+                from information_schema.COLUMNS where table_name = '@{tableName}' and table_schema = '@{schema}';
+                """;
+        String replace = details.replace("@{tableName}", tableName).replace("@{schema}", setting().getSchema());
+        return null;
     }
 }
