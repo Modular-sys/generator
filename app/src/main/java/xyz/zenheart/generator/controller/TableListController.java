@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import xyz.zenheart.generator.pojo.dto.TableDetailDto;
 import xyz.zenheart.generator.pojo.dto.TableDto;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.pojo.widget.DownloadButton;
@@ -102,6 +103,8 @@ public class TableListController implements Initializable {
     private void downloadEvent(ActionEvent actionEvent) {
         DownloadButton source = (DownloadButton) actionEvent.getSource();
         System.out.println(source.getRowData());
+        List<TableDetailDto> details = ServiceFactory.tableInfoService().queryTableDetails(((TableDto) source.getRowData()).getTableName());
+        log.info(details.toString());
     }
 
     @FXML

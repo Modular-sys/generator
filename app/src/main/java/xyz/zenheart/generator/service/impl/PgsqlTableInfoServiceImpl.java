@@ -2,6 +2,7 @@ package xyz.zenheart.generator.service.impl;
 
 import javafx.scene.control.Alert;
 import xyz.zenheart.generator.datasource.execute.SqlExecute;
+import xyz.zenheart.generator.pojo.dto.TableDetailDto;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.service.ITableInfoService;
 
@@ -29,25 +30,11 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
                         WHERE 1=1 AND pgt_.schemaname = '@{schema}'
                 """;
         String sql = table.replace("@{schema}", setting().getSchema());
-        return Objects.requireNonNull(SqlExecute.executeQuery(sql, resultSet -> {
-            List<TableInfoEntity> list = new ArrayList<>();
-            try {
-                while (resultSet.next()) {
-                    TableInfoEntity tableInfo = new TableInfoEntity();
-                    tableInfo.setTableName((String) resultSet.getObject("tablename"));
-                    tableInfo.setDescription((String) resultSet.getObject("description"));
-                    list.add(tableInfo);
-                }
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "查询异常");
-                alert.showAndWait();
-            }
-            return list;
-        }));
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, this::queryTableInfo));
     }
 
     @Override
-    public List<String> queryTableDetails(String tableName) {
+    public List<TableDetailDto> queryTableDetails(String tableName) {
         String details = """
                 SELECT pc.relname AS tableName,pa.attname AS columnName,pt.typname AS columnType, 
                 	(CASE WHEN pa.attlen > 0 THEN pa.attlen ELSE pa.atttypmod - 4 END ) AS columnLength, pa.attnotnull AS isNullAble, 
@@ -61,7 +48,6 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
                 	pc.relname DESC,pa.attnum ASC 
                 """;
         String sql = details.replace("@{tableName}", tableName);
-
-        return null;
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, this::queryTableDetails));
     }
 }

@@ -32,11 +32,11 @@ public class TableDetailDto {
     /**
      * 是否为空
      */
-    private String isNullAble;
+    private boolean nullAble;
     /**
      * 是否主键
      */
-    private String isPrimary;
+    private boolean primary;
     /**
      * 列描述
      */
