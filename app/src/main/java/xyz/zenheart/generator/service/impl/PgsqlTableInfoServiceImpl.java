@@ -30,7 +30,7 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
                         WHERE 1=1 AND pgt_.schemaname = '@{schema}'
                 """;
         String sql = table.replace("@{schema}", setting().getSchema());
-        return Objects.requireNonNull(SqlExecute.executeQuery(sql, this::queryTableInfo));
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, ITableInfoService::queryTableInfo));
     }
 
     @Override
@@ -48,6 +48,6 @@ public class PgsqlTableInfoServiceImpl implements ITableInfoService {
                 	pc.relname DESC,pa.attnum ASC 
                 """;
         String sql = details.replace("@{tableName}", tableName);
-        return Objects.requireNonNull(SqlExecute.executeQuery(sql, this::queryTableDetails));
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, ITableInfoService::queryTableDetails));
     }
 }

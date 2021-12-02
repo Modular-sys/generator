@@ -24,7 +24,7 @@ public class MysqlTableInfoServiceImpl implements ITableInfoService {
                 SELECT table_name AS tableName,table_comment AS description FROM information_schema.tables  WHERE table_schema='@{schema}'
                 """;
         String sql = table.replace("@{schema}", setting().getSchema());
-        return Objects.requireNonNull(SqlExecute.executeQuery(sql, this::queryTableInfo));
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, ITableInfoService::queryTableInfo));
     }
 
     @Override
@@ -34,7 +34,8 @@ public class MysqlTableInfoServiceImpl implements ITableInfoService {
                 IS_NULLABLE AS isNullAble,COLUMN_KEY AS isPrimary,COLUMN_COMMENT AS columnDescription
                 from information_schema.COLUMNS where table_name = '@{tableName}' and table_schema = '@{schema}';
                 """;
-        String replace = details.replace("@{tableName}", tableName).replace("@{schema}", setting().getSchema());
-        return Objects.requireNonNull(SqlExecute.executeQuery(replace, this::queryTableDetails));
+        String sql = details.replace("@{tableName}", tableName).replace("@{schema}", setting().getSchema());
+
+        return Objects.requireNonNull(SqlExecute.executeQuery(sql, ITableInfoService::queryTableDetails));
     }
 }

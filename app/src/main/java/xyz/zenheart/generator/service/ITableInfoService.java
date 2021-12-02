@@ -19,7 +19,7 @@ import java.util.List;
  * @version v1.0
  */
 public interface ITableInfoService {
-    default List<TableInfoEntity> queryTableInfo(ResultSet resultSet) {
+    static List<TableInfoEntity> queryTableInfo(ResultSet resultSet) {
         List<TableInfoEntity> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -29,7 +29,7 @@ public interface ITableInfoService {
                 list.add(tableInfo);
             }
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "查询异常");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "查询异常原因:" + e.getMessage());
             alert.showAndWait();
         }
         return list;
@@ -43,7 +43,7 @@ public interface ITableInfoService {
         return null;
     }
 
-    default List<TableDetailDto> queryTableDetails(ResultSet resultSet) {
+    static List<TableDetailDto> queryTableDetails(ResultSet resultSet) {
         List<TableDetailDto> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -52,12 +52,21 @@ public interface ITableInfoService {
                 tableDetail.setColumnName((String) resultSet.getObject("columnName"));
                 tableDetail.setColumnType((String) resultSet.getObject("columnType"));
                 tableDetail.setColumnDescription((String) resultSet.getObject("columnDescription"));
-                tableDetail.setNullAble((boolean) resultSet.getObject("isNullAble"));
-                tableDetail.setPrimary((boolean) resultSet.getObject("isPrimary"));
+                int i = 10 / 0;
+                if (resultSet.getObject("isNullAble") instanceof Boolean nullAble) {
+                    tableDetail.setNullAble(nullAble);
+                } else if (resultSet.getObject("isNullAble") instanceof String nullAble) {
+                    tableDetail.setNullAble("YES".equals(nullAble));
+                }
+                if (resultSet.getObject("isPrimary") instanceof Boolean primary) {
+                    tableDetail.setPrimary(primary);
+                } else if (resultSet.getObject("isPrimary") instanceof String primary) {
+                    tableDetail.setPrimary("PRI".equals(primary));
+                }
                 list.add(tableDetail);
             }
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "查询异常");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "查询异常原因:" + e.getMessage());
             alert.showAndWait();
         }
         return list;

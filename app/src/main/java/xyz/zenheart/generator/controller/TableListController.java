@@ -1,5 +1,6 @@
 package xyz.zenheart.generator.controller;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -103,8 +104,10 @@ public class TableListController implements Initializable {
     private void downloadEvent(ActionEvent actionEvent) {
         DownloadButton source = (DownloadButton) actionEvent.getSource();
         System.out.println(source.getRowData());
-        List<TableDetailDto> details = ServiceFactory.tableInfoService().queryTableDetails(((TableDto) source.getRowData()).getTableName());
-        log.info(details.toString());
+        Platform.runLater(() -> {
+            List<TableDetailDto> details = ServiceFactory.tableInfoService().queryTableDetails(((TableDto) source.getRowData()).getTableName());
+            log.info(details.toString());
+        });
     }
 
     @FXML
