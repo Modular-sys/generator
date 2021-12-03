@@ -52,7 +52,6 @@ public interface ITableInfoService {
                 tableDetail.setColumnName((String) resultSet.getObject("columnName"));
                 tableDetail.setColumnType((String) resultSet.getObject("columnType"));
                 tableDetail.setColumnDescription((String) resultSet.getObject("columnDescription"));
-                int i = 10 / 0;
                 if (resultSet.getObject("isNullAble") instanceof Boolean nullAble) {
                     tableDetail.setNullAble(nullAble);
                 } else if (resultSet.getObject("isNullAble") instanceof String nullAble) {

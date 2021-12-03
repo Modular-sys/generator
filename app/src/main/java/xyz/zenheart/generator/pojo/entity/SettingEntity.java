@@ -48,6 +48,16 @@ public class SettingEntity extends BaseEntity {
     private String schema;
 
     /**
+     * 模块名
+     */
+    private String moduleName;
+
+    /**
+     *
+     */
+    private String packagePath;
+
+    /**
      * 是否选中
      */
     private boolean selected;

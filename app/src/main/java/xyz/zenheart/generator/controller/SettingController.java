@@ -51,6 +51,12 @@ public class SettingController implements Initializable {
     private TextField password;
     @FXML
     private TextField schema;
+    @FXML
+    private TextField moduleName;
+    @FXML
+    private TextField packagePath;
+    @FXML
+    public TextField tablePrefix;
     @Resource
     private ISettingService settingService;
 
@@ -96,6 +102,8 @@ public class SettingController implements Initializable {
         username.setText(setting.getUsername());
         password.setText(setting.getPassword());
         schema.setText(setting.getSchema());
+        moduleName.setText(setting.getModuleName());
+        packagePath.setText(setting.getPackagePath());
     }
 
     static class DataBaseConverter extends StringConverter<DataBaseEnum> {
@@ -133,6 +141,8 @@ public class SettingController implements Initializable {
         setting.setUsername(username.getText());
         setting.setPassword(password.getText());
         setting.setSchema(schema.getText());
+        setting.setModuleName(moduleName.getText());
+        setting.setPackagePath(packagePath.getText());
         Constant.GLOBAL.put(Constant.SELECTED, setting.getDatabaseType());
         Constant.GLOBAL.put(setting.getDatabaseType(), setting);
         return setting;

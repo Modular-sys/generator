@@ -1,4 +1,4 @@
-package xyz.zenheart.generator.pojo.bo;
+package xyz.zenheart.generator.pojo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +20,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EntityBo {
+public class EntityDto {
 
-    private List<FieldBo> fields = new ArrayList<>();
+    private List<TableDetailDto> fields = new ArrayList<>();
 
     private List<String> importPackages = new ArrayList<>();
 

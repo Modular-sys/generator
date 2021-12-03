@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<VBox minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.zenheart.generator.controller.SettingController">
+<VBox minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.2"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.zenheart.generator.controller.SettingController">
     <padding>
-        <Insets top="6.0" />
+        <Insets top="6.0"/>
     </padding>
     <AnchorPane prefHeight="30.0" prefWidth="490.0">
-        <Button layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#saveConfigEvent" text="保存配置" />
+        <Button layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#saveConfigEvent" text="保存配置"/>
     </AnchorPane>
     <AnchorPane prefHeight="30.0" prefWidth="490.0">
-        <TextField fx:id="directoryLocation" layoutX="11.0" layoutY="2.0" prefHeight="23.0" prefWidth="295.0" />
-        <Button fx:id="directoryChooser" layoutX="331.0" layoutY="1.0" text="下载路径" />
-        <Button layoutX="405.0" layoutY="1.0" mnemonicParsing="false" text="清除路径" />
+        <TextField fx:id="directoryLocation" layoutX="11.0" layoutY="2.0" prefHeight="23.0" prefWidth="295.0"/>
+        <Button fx:id="directoryChooser" layoutX="331.0" layoutY="1.0" text="下载路径"/>
+        <Button layoutX="405.0" layoutY="1.0" mnemonicParsing="false" text="清除路径"/>
     </AnchorPane>
     <AnchorPane prefHeight="30.0" prefWidth="490.0">
-        <TextField fx:id="databaseUrl" layoutX="11.0" layoutY="3.0" prefHeight="23.0" prefWidth="295.0" promptText="请输入数据库地址例如: 127.0.0.1:6379" />
-        <ChoiceBox fx:id="databaseType" layoutX="332.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0" />
-        <TextField fx:id="databaseName" layoutX="405.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0" promptText="数据库名" />
+        <TextField fx:id="databaseUrl" layoutX="11.0" layoutY="3.0" prefHeight="23.0" prefWidth="295.0"
+                   promptText="请输入数据库地址例如: 127.0.0.1:6379"/>
+        <ChoiceBox fx:id="databaseType" layoutX="332.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0"/>
+        <TextField fx:id="databaseName" layoutX="405.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0"
+                   promptText="数据库名"/>
     </AnchorPane>
     <AnchorPane prefHeight="30.0" prefWidth="490.0">
-        <Label layoutX="10.0" layoutY="6.0" text="用户名:" />
-        <TextField fx:id="username" layoutX="60.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0" />
-        <Label layoutX="210.0" layoutY="6.0" text="密  码:" />
-        <PasswordField fx:id="password" layoutX="270.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0" />
-        <TextField fx:id="schema" layoutX="405.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0" promptText="schema" />
+        <Label layoutX="10.0" layoutY="6.0" text="用户名:"/>
+        <TextField fx:id="username" layoutX="60.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0"/>
+        <Label layoutX="210.0" layoutY="6.0" text="密  码:"/>
+        <PasswordField fx:id="password" layoutX="270.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0"/>
+        <TextField fx:id="schema" layoutX="405.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0" promptText="schema"/>
     </AnchorPane>
-   <AnchorPane prefHeight="30.0" prefWidth="490.0">
-      <children>
-         <Label layoutX="10.0" layoutY="9.0" text="包路径" />
-         <TextField layoutX="60.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0" />
-         <Label layoutX="210.0" layoutY="7.0" text="模块名" />
-         <TextField layoutX="270.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0" />
-      </children>
-   </AnchorPane>
+    <AnchorPane prefHeight="30.0" prefWidth="490.0">
+        <Label layoutX="10.0" layoutY="9.0" text="包路径"/>
+        <TextField fx:id="packagePath" layoutX="60.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0"/>
+        <Label layoutX="210.0" layoutY="7.0" text="模块名"/>
+        <TextField fx:id="moduleName" layoutX="270.0" layoutY="2.0" prefHeight="23.0" prefWidth="125.0"/>
+        <TextField fx:id="tablePrefix" layoutX="405.0" layoutY="2.0" prefHeight="23.0" prefWidth="64.0"
+                   promptText="表前缀"/>
+    </AnchorPane>
 </VBox>

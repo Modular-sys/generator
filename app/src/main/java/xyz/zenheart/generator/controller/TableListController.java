@@ -14,15 +14,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import xyz.zenheart.generator.pojo.dto.TableDetailDto;
 import xyz.zenheart.generator.pojo.dto.TableDto;
 import xyz.zenheart.generator.pojo.entity.TableInfoEntity;
 import xyz.zenheart.generator.pojo.widget.DownloadButton;
 import xyz.zenheart.generator.pojo.widget.TableCheckbox;
+import xyz.zenheart.generator.service.ITablePageService;
 import xyz.zenheart.generator.service.factory.ServiceFactory;
 import xyz.zenheart.generator.utils.Constant;
 import xyz.zenheart.generator.utils.FieldUtils;
 
+import javax.annotation.Resource;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +51,8 @@ public class TableListController implements Initializable {
     private TableColumn<TableDto, String> describe;
     @FXML
     private TableColumn<TableDto, DownloadButton> operation;
+    @Resource
+    private ITablePageService tablePageService;
 
     private final ObservableList<TableDto> data = FXCollections.observableArrayList();
 
@@ -105,8 +108,8 @@ public class TableListController implements Initializable {
         DownloadButton source = (DownloadButton) actionEvent.getSource();
         System.out.println(source.getRowData());
         Platform.runLater(() -> {
-            List<TableDetailDto> details = ServiceFactory.tableInfoService().queryTableDetails(((TableDto) source.getRowData()).getTableName());
-            log.info(details.toString());
+            log.info("下载{}", source);
+            tablePageService.processButtonDownload((TableDto) source.getRowData());
         });
     }
 
@@ -116,18 +119,20 @@ public class TableListController implements Initializable {
     }
 
     private void searchTable() {
-        data.clear();
-        List<TableInfoEntity> tableInfoEntities = ServiceFactory.tableInfoService().queryTableInfo();
-        if (Objects.isNull(tableInfoEntities)) return;
-        for (TableInfoEntity tableInfo : tableInfoEntities) {
-            DownloadButton button = new DownloadButton("下载");
-            String description = Objects.isNull(tableInfo.getDescription()) ? "" : tableInfo.getDescription();
-            TableCheckbox checkbox = new TableCheckbox(Constant.FALSE);
-            TableDto dto = new TableDto(checkbox, tableInfo.getTableName(), description, button);
-            data.add(dto);
-            button.setRowData(dto);
-            checkbox.setRowData(dto);
-            button.setOnAction(this::downloadEvent);
-        }
+        Platform.runLater(() -> {
+            data.clear();
+            List<TableInfoEntity> tableInfoEntities = ServiceFactory.tableInfoService().queryTableInfo();
+            if (Objects.isNull(tableInfoEntities)) return;
+            for (TableInfoEntity tableInfo : tableInfoEntities) {
+                DownloadButton button = new DownloadButton("下载");
+                String description = Objects.isNull(tableInfo.getDescription()) ? "" : tableInfo.getDescription();
+                TableCheckbox checkbox = new TableCheckbox(Constant.FALSE);
+                TableDto dto = new TableDto(checkbox, tableInfo.getTableName(), description, button);
+                data.add(dto);
+                button.setRowData(dto);
+                checkbox.setRowData(dto);
+                button.setOnAction(this::downloadEvent);
+            }
+        });
     }
 }

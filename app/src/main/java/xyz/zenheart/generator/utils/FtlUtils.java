@@ -10,8 +10,17 @@ import org.springframework.stereotype.Component;
 import xyz.zenheart.generator.pojo.entity.UserEntity;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 
 /**
  * <p>项目名称: cgenerator </p>
@@ -40,12 +49,23 @@ public class FtlUtils {
             System.out.println(temp);
             FileWriter fileWriter = new FileWriter("entity.java");
             UserEntity userEntity = new UserEntity();
-            userEntity.setName("zhangsan");
+            userEntity.setName("222222");
             userEntity.setPwd("123456");
             temp.process(userEntity, fileWriter);
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
+//        try {
+//            Path path = Paths.get(URI.create("file:/D:/DraftFiles/维之星进度/1/1/1.txt"));
+//        Path root = path.getRoot();
+//        System.out.println(root.toString());
+//            FileAttribute<Set<PosixFilePermission>> r = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwxrwx"));
+//            Files.createDirectories(path);
+//            Path directories = Files.createFile(path);
+//            Files.writeString(path,"fffffffffffffff");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void writeFile(Object o, String templateName, String fileName) {
