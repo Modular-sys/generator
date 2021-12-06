@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.controller;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,10 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import xyz.zenheart.generator.pojo.dto.TableDto;
@@ -41,6 +44,8 @@ import java.util.ResourceBundle;
 @Component
 public class TableListController implements Initializable {
 
+    @FXML
+    public AnchorPane tableContainer;
     @FXML
     private TableView<TableDto> tableView;
     @FXML
@@ -90,18 +95,23 @@ public class TableListController implements Initializable {
     }
 
     private void initStyle() {
-        checkbox.setMinWidth(35);
-        checkbox.setMaxWidth(35);
         checkbox.setStyle("-fx-alignment:center");
-        tableName.setMinWidth(140);
-        tableName.setMaxWidth(180);
-        describe.setMinWidth(200);
-        describe.setMaxWidth(240);
+        checkbox.setPrefWidth(tableView.widthProperty().multiply(0.1).getValue());
+        checkbox.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
+
         tableName.setStyle("-fx-padding: 0");
         tableName.setStyle("-fx-alignment:center-left");
+        tableName.setPrefWidth(tableView.widthProperty().multiply(0.3).getValue());
+        tableName.prefWidthProperty().bind(tableView.widthProperty().multiply(0.3));
+
         describe.setStyle("-fx-padding: 0");
         describe.setStyle("-fx-alignment:center-left");
+        describe.setPrefWidth(tableView.widthProperty().multiply(0.45).getValue());
+        describe.prefWidthProperty().bind(tableView.widthProperty().multiply(0.45));
+
         operation.setStyle("-fx-alignment:center");
+        operation.setPrefWidth(tableView.widthProperty().multiply(0.12).getValue());
+        operation.prefWidthProperty().bind(tableView.widthProperty().multiply(0.12));
     }
 
     private void downloadEvent(ActionEvent actionEvent) {

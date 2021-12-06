@@ -2,6 +2,7 @@ package xyz.zenheart.generator.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
 @Component
 public class DesktopController implements Initializable {
 
+    public AnchorPane desktopContainer;
     @FXML
     private SettingController settingController;
     @FXML
@@ -19,8 +21,7 @@ public class DesktopController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("");
+        tableListController.tableContainer.setPrefWidth(desktopContainer.getWidth());
+        tableListController.tableContainer.prefWidthProperty().bind(desktopContainer.widthProperty());
     }
-
-
 }

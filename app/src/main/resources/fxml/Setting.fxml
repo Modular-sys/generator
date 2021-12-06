@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.2"
+<VBox minHeight="0.0" minWidth="0.0" prefHeight="371.0" xmlns="http://javafx.com/javafx/11.0.2"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.zenheart.generator.controller.SettingController">
     <padding>
         <Insets top="6.0"/>
