@@ -18,7 +18,10 @@
             database_url       = #{setting.databaseUrl},
             username           = #{setting.username},
             password           = #{setting.password},
-            schema             = #{setting.schema}
+            schema             = #{setting.schema},
+            module_name        = #{setting.moduleName},
+            package_path       = #{setting.packagePath},
+            table_prefix       = #{setting.tablePrefix}
         WHERE database_type = #{setting.databaseType}
     </update>
 

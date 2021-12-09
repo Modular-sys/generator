@@ -1,7 +1,7 @@
 package xyz.zenheart.generator.controller;
 
+import com.sun.javafx.scene.control.VirtualScrollBar;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,6 +95,9 @@ public class TableListController implements Initializable {
     }
 
     private void initStyle() {
+        tableView.setPrefHeight(tableContainer.getHeight());
+        tableView.prefHeightProperty().bind(tableContainer.prefHeightProperty());
+
         checkbox.setStyle("-fx-alignment:center");
         checkbox.setPrefWidth(tableView.widthProperty().multiply(0.1).getValue());
         checkbox.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
@@ -110,8 +113,8 @@ public class TableListController implements Initializable {
         describe.prefWidthProperty().bind(tableView.widthProperty().multiply(0.45));
 
         operation.setStyle("-fx-alignment:center");
-        operation.setPrefWidth(tableView.widthProperty().multiply(0.12).getValue());
-        operation.prefWidthProperty().bind(tableView.widthProperty().multiply(0.12));
+        operation.setPrefWidth(tableView.widthProperty().multiply(0.15).getValue());
+        operation.prefWidthProperty().bind(tableView.widthProperty().multiply(0.15));
     }
 
     private void downloadEvent(ActionEvent actionEvent) {
@@ -143,6 +146,8 @@ public class TableListController implements Initializable {
                 checkbox.setRowData(dto);
                 button.setOnAction(this::downloadEvent);
             }
+            ScrollBar verticalBar = (ScrollBar) tableView.lookup(".scroll-bar:vertical");
+            log.info("");
         });
     }
 }

@@ -2,6 +2,7 @@ package xyz.zenheart.generator.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import xyz.zenheart.generator.enums.OrmEnum;
 import xyz.zenheart.generator.pojo.dto.*;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 import xyz.zenheart.generator.service.ITablePageService;
@@ -22,11 +23,15 @@ import java.util.List;
 @Service
 public class TablePageServiceImpl implements ITablePageService {
 
+    private SettingEntity setting;
+    private TableDto tableDto;
+
     @Override
     public void processButtonDownload(TableDto tableDto) {
+        this.tableDto = tableDto;
         List<TableDetailDto> details = ServiceFactory.tableInfoService().queryTableDetails(tableDto.getTableName());
         log.info(details.toString());
-        SettingEntity setting = Constant.setting();
+        setting = Constant.setting();
         EntityDto entityDto = constructEntity();
         MapperDto mapperDto = constructMapper();
         ServiceDto serviceDto = constructService();
@@ -35,7 +40,10 @@ public class TablePageServiceImpl implements ITablePageService {
 
     private EntityDto constructEntity() {
         EntityDto entityDto = new EntityDto();
-        entityDto.setEntityClass("");
+        OrmEnum ormEnum = OrmEnum.ENTITY;
+        entityDto.setEntityPackage(ormEnum.packagePath());
+        entityDto.getImportPackages().add(ormEnum.importPath(tableDto.getTableName()));
+        entityDto.setClassName(ormEnum.className(tableDto.getTableName()));
         return entityDto;
     }
 

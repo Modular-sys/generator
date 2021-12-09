@@ -28,7 +28,7 @@ public class EntityDto {
 
     private String entityPackage;
 
-    private String entityClass;
+    private String className;
 
-    private String superEntityClass;
+    private String superClass;
 }

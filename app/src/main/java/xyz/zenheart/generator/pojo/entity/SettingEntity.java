@@ -53,9 +53,19 @@ public class SettingEntity extends BaseEntity {
     private String moduleName;
 
     /**
-     *
+     * 包基础路径
      */
     private String packagePath;
+
+    /**
+     * 表前缀
+     */
+    private String tablePrefix;
+
+    /**
+     * 父类
+     */
+    private String superClass;
 
     /**
      * 是否选中

@@ -36,6 +36,8 @@ import java.util.ResourceBundle;
 public class SettingController implements Initializable {
 
     @FXML
+    public TextField superClass;
+    @FXML
     private TextField directoryLocation;
     @FXML
     private Button directoryChooser;
@@ -104,6 +106,8 @@ public class SettingController implements Initializable {
         schema.setText(setting.getSchema());
         moduleName.setText(setting.getModuleName());
         packagePath.setText(setting.getPackagePath());
+        tablePrefix.setText(setting.getTablePrefix());
+        superClass.setText(setting.getSuperClass());
     }
 
     static class DataBaseConverter extends StringConverter<DataBaseEnum> {
@@ -143,6 +147,8 @@ public class SettingController implements Initializable {
         setting.setSchema(schema.getText());
         setting.setModuleName(moduleName.getText());
         setting.setPackagePath(packagePath.getText());
+        setting.setTablePrefix(tablePrefix.getText());
+        setting.setSuperClass(superClass.getText());
         Constant.GLOBAL.put(Constant.SELECTED, setting.getDatabaseType());
         Constant.GLOBAL.put(setting.getDatabaseType(), setting);
         return setting;

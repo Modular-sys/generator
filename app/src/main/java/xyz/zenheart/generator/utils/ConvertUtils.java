@@ -31,7 +31,7 @@ public class ConvertUtils {
     }
 
     /**
-     * 驼峰转下划线,效率比上面高
+     * 驼峰转下划线,效率比下面高
      */
     public static String humpToLine(String str) {
         Matcher matcher = humpPattern.matcher(str);

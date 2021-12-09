@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 @Component
 public class DesktopController implements Initializable {
 
+    @FXML
     public AnchorPane desktopContainer;
     @FXML
     private SettingController settingController;
@@ -23,5 +24,8 @@ public class DesktopController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tableListController.tableContainer.setPrefWidth(desktopContainer.getWidth());
         tableListController.tableContainer.prefWidthProperty().bind(desktopContainer.widthProperty());
+
+        tableListController.tableContainer.setPrefHeight(desktopContainer.getHeight());
+        tableListController.tableContainer.prefHeightProperty().bind(desktopContainer.heightProperty());
     }
 }

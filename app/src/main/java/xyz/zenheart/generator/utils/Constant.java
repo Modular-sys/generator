@@ -20,6 +20,14 @@ public class Constant {
 
     public static final boolean FALSE = false;
 
+    public static final String ENTITY_SUFFIX = "Entity";
+
+    public static final String MAPPER_SUFFIX = "Mapper";
+
+    public static final String SERVICE_SUFFIX = "Service";
+
+    public static final String SERVICE_IMPL_SUFFIX = "ServiceImpl";
+
     public static SettingEntity setting() {
         return (SettingEntity) Constant.GLOBAL.get((String) Constant.GLOBAL.get(SELECTED));
     }
