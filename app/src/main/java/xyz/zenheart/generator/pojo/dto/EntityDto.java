@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>项目名称: generator </p>
@@ -24,11 +26,17 @@ public class EntityDto {
 
     private List<TableDetailDto> fields = new ArrayList<>();
 
-    private List<String> importPackages = new ArrayList<>();
+    private Set<String> importPackages = new LinkedHashSet<>();
 
     private String entityPackage;
 
     private String className;
 
     private String superClass;
+
+    private String superClassName;
+
+    private String tableName;
+
+    private String comment;
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
  * <p>项目名称: generator </p>
  * <p>描述: 表字段信息 </p>
  * <p>创建时间: 2021/11/30 </p>
-
  *
  * @author CKM
  * @version v1.0
@@ -36,7 +35,7 @@ public class TableDetailDto {
     /**
      * 是否主键
      */
-    private boolean primary;
+    private boolean primary = false;
     /**
      * 列描述
      */

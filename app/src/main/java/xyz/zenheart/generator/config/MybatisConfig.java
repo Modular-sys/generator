@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
  * <p>项目名称: generator </p>
  * <p>描述: mybatis配置 </p>
  * <p>创建时间: 2021/9/2 </p>
-
  *
  * @author CKM
  * @version v1.0
@@ -101,7 +101,14 @@ public class MybatisConfig {
     public HikariDataSource localeDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setJdbcUrl("jdbc:sqlite:D:\\BackUps\\database\\locale.db");
+        String protocol = MybatisConfig.class.getResource("").getProtocol();
+        if ("file".equals(protocol)) {
+            String path = MybatisConfig.class.getResource("/db/locale.db").getPath();
+            dataSource.setJdbcUrl("jdbc:sqlite:" + path);
+        } else {
+            String path = System.getProperty("java.home");
+            dataSource.setJdbcUrl("jdbc:sqlite:" + path + File.separator + "db" + File.separator + "locale.db");
+        }
         return dataSource;
     }
 

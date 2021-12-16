@@ -1,28 +1,29 @@
 package ${entityPackage};
 
 <#list importPackages as pkg>
-    import ${pkg};
+    import ${pkg!};
 </#list>
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 
 /**
- * <p>${comment!}</p>
- *
- * @author ${author}
- * @since ${date}
- */
+* <p>${comment!}</p>
+*
+* @author ${author!}
+* @since ${date!}
+*/
 @Data
 @EqualsAndHashCode(callSuper = true)
-<#if convert>
-    @TableName("${name}")
-</#if>
-<#if superEntityClass??>
-    public class ${entityClass} extends ${superEntityClass} {
+@TableName("${tableName}")
+<#if superClass??>
+public class ${className!} extends ${superClassName} {
 <#else>
-    public class ${entityClass} implements Serializable {
+public class ${className!} implements Serializable {
 </#if>
 
 <#if superEntityClass??>
@@ -30,23 +31,16 @@ import lombok.EqualsAndHashCode;
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list fields as field>
-    <#if field.comment!?length gt 0>
-        /**
-        * ${field.comment}
-        */
+    <#if field.columnDescription!?length gt 0>
+    /**
+    * ${field.columnDescription}
+    */
     </#if>
-    <#if field.keyFlag>
+    <#if field.primary>
     <#-- 主键 -->
-        <#if field.keyIdentityFlag>
-            @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
-        <#elseif idType??>
-            @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
-        <#elseif field.convert>
-            @TableId("${field.annotationColumnName}")
-        </#if>
-    <#-- 普通字段 -->
+    @TableId(type = IdType.AUTO)
     </#if>
-    private ${field.propertyType} ${field.propertyName};
+    private ${field.columnType!} ${field.propertyName!};
 </#list>
 
 }

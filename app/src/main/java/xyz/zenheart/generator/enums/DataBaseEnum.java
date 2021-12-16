@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.enums;
 
 import lombok.Getter;
+import xyz.zenheart.generator.pojo.entity.SettingEntity;
 
 /**
  * <p>项目名称: cgenerator </p>
@@ -11,13 +12,16 @@ import lombok.Getter;
  * @version v1.0
  */
 public enum DataBaseEnum {
-    MYSQL("mysql"),
-    PGSQL("pgsql");
+    MYSQL("mysql", new SettingEntity()),
+    PGSQL("pgsql", new SettingEntity());
     @Getter
     private final String name;
+    @Getter
+    private final SettingEntity setting;
 
-    DataBaseEnum(String name) {
+    DataBaseEnum(String name, SettingEntity setting) {
         this.name = name;
+        this.setting = setting;
     }
 
     public static DataBaseEnum getByName(String name) {

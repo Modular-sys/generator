@@ -19,7 +19,6 @@ application {
 
 dependencies {
     implementation project(':core')
-    implementation 'com.fazecast:jSerialComm:2.7.0'
     implementation 'org.assertj:assertj-core:3.19.0'
     implementation 'org.aspectj:aspectjweaver:1.9.7'
     implementation "com.zaxxer:HikariCP:${hikaricp_version}"
@@ -38,6 +37,21 @@ dependencies {
 
 tasks.jar.enabled = true
 
+tasks.jre.doLast {
+    runtime.targetPlatforms.get().forEach((s, t) -> {
+        copy {
+            from('src/main/resources/db')
+            into("build/jre/${project.getName()}-${s}/db")
+        }
+    })
+    if (runtime.targetPlatforms.get().isEmpty()) {
+        copy {
+            from('src/main/resources/db')
+            into("build/jre/db")
+        }
+    }
+}
+
 runtime {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
@@ -48,7 +62,6 @@ runtime {
     }
 
     jpackage {
-
         OperatingSystem os = OperatingSystem.current()
         String imgType = os.windows ? 'ico' : os.macOsX ? 'icns' : 'png'
         imageOptions += ['--icon', "src/main/resources/runtime.$imgType"]
