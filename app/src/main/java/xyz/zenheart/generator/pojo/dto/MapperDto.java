@@ -12,4 +12,41 @@ import lombok.Data;
  */
 @Data
 public class MapperDto {
+
+    /**
+     *
+     */
+    private String packageMapper;
+    /**
+     *
+     */
+    private String packageEntity;
+    /**
+     *
+     */
+    private String entityClass;
+    /**
+     *
+     */
+    private String superMapperClassPackage;
+    /**
+     *
+     */
+    private String tableComment;
+    /**
+     *
+     */
+    private String author;
+    /**
+     *
+     */
+    private String date;
+    /**
+     *
+     */
+    private String tableMapperName;
+    /**
+     *
+     */
+    private String superMapperClass;
 }

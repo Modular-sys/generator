@@ -1,18 +1,18 @@
-package ${package.Mapper};
+package ${packageMapper};
 
-import ${package.Entity}.${entity};
+import ${packageEntity}.${entityClass};
 import ${superMapperClassPackage};
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * ${table.comment!} Mapper 接口
+ * ${tableComment!} Mapper 接口
  * </p>
  *
  * @author ${author!}
  * @since ${date!}
  */
 @Mapper
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+public interface ${tableMapperName} extends ${superMapperClass}<${entityClass}> {
 
 }
