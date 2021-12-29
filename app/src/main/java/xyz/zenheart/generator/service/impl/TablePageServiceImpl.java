@@ -10,7 +10,9 @@ import xyz.zenheart.generator.service.factory.ServiceFactory;
 import xyz.zenheart.generator.utils.Constant;
 import xyz.zenheart.generator.utils.ConvertUtils;
 import xyz.zenheart.generator.utils.FtlUtils;
+import xyz.zenheart.generator.utils.PathUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -65,11 +67,14 @@ public class TablePageServiceImpl implements ITablePageService {
         entityDto.setTableName(tableDto.getTableName());
         entityDto.setComment(tableDto.getDescribe());
         entityDto.setFields(details);
-        FtlUtils.writeFile(entityDto, "entity.java.ftl", entityDto.getClassName() + "Entity.java");
+        String fileName = setting.getDirectoryLocation() + File.separator + entityDto.getClassName() + "Entity.java";
+        FtlUtils.writeFile(entityDto, "entity.java.ftl", PathUtils.format(fileName));
         return entityDto;
     }
 
     private MapperDto constructMapper() {
+
+
         return new MapperDto();
     }
 
