@@ -1,6 +1,7 @@
 package xyz.zenheart.generator.enums;
 
 import lombok.Getter;
+import lombok.Setter;
 import xyz.zenheart.generator.pojo.entity.SettingEntity;
 
 /**
@@ -16,8 +17,9 @@ public enum DataBaseEnum {
     PGSQL("pgsql", new SettingEntity());
     @Getter
     private final String name;
+    @Setter
     @Getter
-    private final SettingEntity setting;
+    private SettingEntity setting;
 
     DataBaseEnum(String name, SettingEntity setting) {
         this.name = name;

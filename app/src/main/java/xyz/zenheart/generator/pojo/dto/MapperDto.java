@@ -16,11 +16,11 @@ public class MapperDto {
     /**
      *
      */
-    private String packageMapper;
+    private String mapperPackage;
     /**
      *
      */
-    private String packageEntity;
+    private String entityPackage;
     /**
      *
      */

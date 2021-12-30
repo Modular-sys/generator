@@ -12,4 +12,28 @@ import lombok.Data;
  */
 @Data
 public class ControllerDto {
+    /**
+     *
+     */
+    private String controllerPackage;
+    /**
+     *
+     */
+    private String tableComment;
+    /**
+     *
+     */
+    private String author;
+    /**
+     *
+     */
+    private String date;
+    /**
+     *
+     */
+    private String requestPath;
+    /**
+     *
+     */
+    private String controllerClassName;
 }

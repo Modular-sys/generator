@@ -41,9 +41,9 @@ public class TablePageServiceImpl implements ITablePageService {
         log.info(details.toString());
         setting = Constant.setting();
         EntityDto entityDto = constructEntity(details);
-        MapperDto mapperDto = constructMapper();
-        ServiceDto serviceDto = constructService();
-        ControllerDto controllerDto = constructController();
+        MapperDto mapperDto = constructMapper(entityDto);
+        ServiceDto serviceDto = constructService(entityDto);
+        ControllerDto controllerDto = constructController(entityDto);
     }
 
     private EntityDto constructEntity(List<TableDetailDto> details) {
@@ -72,17 +72,46 @@ public class TablePageServiceImpl implements ITablePageService {
         return entityDto;
     }
 
-    private MapperDto constructMapper() {
+    private MapperDto constructMapper(EntityDto entityDto) {
+        MapperDto mapperDto = new MapperDto();
+        OrmEnum mapperEnum = OrmEnum.MAPPER;
+        mapperDto.setMapperPackage(mapperEnum.getPath());
+        mapperDto.setEntityPackage(entityDto.getEntityPackage());
+        mapperDto.setEntityClass(entityDto.getClassName());
+        mapperDto.setSuperMapperClassPackage("com.baomidou.mybatisplus.core.mapper");
+        mapperDto.setSuperMapperClass("BaseMapper");
+        mapperDto.setTableComment(entityDto.getComment());
+        mapperDto.setAuthor("");
+        mapperDto.setDate("");
+        mapperDto.setTableMapperName(mapperEnum.className(entityDto.getTableName()));
 
-
-        return new MapperDto();
+        return mapperDto;
     }
 
-    private ServiceDto constructService() {
-        return new ServiceDto();
+    private ServiceDto constructService(EntityDto entityDto) {
+        ServiceDto serviceDto = new ServiceDto();
+        OrmEnum serviceEnum = OrmEnum.SERVICE;
+        serviceDto.setServicePackage(serviceEnum.getPath());
+        serviceDto.setEntityPackage(entityDto.getEntityPackage());
+        serviceDto.setSuperServiceClassPackage("com.baomidou.mybatisplus.extension.service.IService");
+        serviceDto.setTableComment(entityDto.getComment());
+        serviceDto.setAuthor("");
+        serviceDto.setDate("");
+        serviceDto.setTableServiceName(serviceEnum.className(entityDto.getTableName()));
+        serviceDto.setSuperServiceClass("IService");
+        serviceDto.setEntityClass(entityDto.getClassName());
+        return serviceDto;
     }
 
-    private ControllerDto constructController() {
-        return new ControllerDto();
+    private ControllerDto constructController(EntityDto entityDto) {
+        ControllerDto controllerDto = new ControllerDto();
+        OrmEnum controllerEnum = OrmEnum.CONTROLLER;
+        controllerDto.setControllerPackage(controllerEnum.packagePath());
+        controllerDto.setTableComment(entityDto.getComment());
+        controllerDto.setAuthor("");
+        controllerDto.setDate("");
+        controllerDto.setRequestPath("");
+        controllerDto.setControllerClassName(controllerEnum.className(entityDto.getTableName()));
+        return controllerDto;
     }
 }

@@ -12,4 +12,40 @@ import lombok.Data;
  */
 @Data
 public class ServiceDto {
+    /**
+     *
+     */
+    private String servicePackage;
+    /**
+     *
+     */
+    private String entityPackage;
+    /**
+     *
+     */
+    private String superServiceClassPackage;
+    /**
+     *
+     */
+    private String tableComment;
+    /**
+     *
+     */
+    private String author;
+    /**
+     *
+     */
+    private String date;
+    /**
+     *
+     */
+    private String tableServiceName;
+    /**
+     *
+     */
+    private String superServiceClass;
+    /**
+     *
+     */
+    private String entityClass;
 }
